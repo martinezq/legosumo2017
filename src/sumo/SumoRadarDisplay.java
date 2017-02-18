@@ -2,7 +2,6 @@ package sumo;
 
 import javax.microedition.lcdui.Graphics;
 
-import sumo.SumoRadar.Heading;
 import sumo.SumoRadar.SumoRadarListener;
 
 public class SumoRadarDisplay implements SumoRadarListener {
@@ -59,9 +58,6 @@ public class SumoRadarDisplay implements SumoRadarListener {
 		g.drawString("" + radar.distanceLeftCm, 0, 0, 0);
 		g.drawString("" + radar.distanceRightCm, 0, 60, Graphics.BOTTOM);
 
-		g.drawString(radar.heading.toString().substring(0, 3), 20, 0, 0);
-		g.drawString(radar.lastHeading.toString().substring(0, 3), 50, 0, 0);
-
 	}
 	
 	private void drawEnemy() {
@@ -79,11 +75,11 @@ public class SumoRadarDisplay implements SumoRadarListener {
 	private void drawArrow(int x, int y) {
 		g.setStrokeStyle(Graphics.SOLID);
 		int len = 20;
-		if (radar.heading == Heading.RIGHT) {
+		if (radar.error < 0) {
 			g.drawLine(x, y, x, y + len);
 			g.drawLine(x, y + len, x + 5, y + len - 5);
 			g.drawLine(x, y + len, x - 5, y + len - 5);
-		} else if (radar.heading == Heading.LEFT) {
+		} else if (radar.error > 0) {
 			g.drawLine(x, y, x, y - len);
 			g.drawLine(x, y - len, x + 5, y - len + 5);
 			g.drawLine(x, y - len, x - 5, y - len + 5);
