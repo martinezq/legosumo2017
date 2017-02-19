@@ -7,12 +7,24 @@ import sumo.SumoRadar.SumoRadarListener;
 public class SumoPilot implements SumoRadarListener {
 
 	private SumoRadar radar;
-
-	private static int KP = 100; //KP < KD
-	private static int KI = 1;
-	private static int KD = 100;
 	
-	private static int MAX_SPEED = 200;
+	public static class Config {
+		private final int kp, ki, kd, maxSpeed;
+
+		public Config(int kp, int ki, int kd, int maxSpeed) {
+			super();
+			this.kp = kp;
+			this.ki = ki;
+			this.kd = kd;
+			this.maxSpeed = maxSpeed;
+		}
+		
+	}
+
+	private static Config CONFIG_SLOW = new Config(300, 0, 3000, 50);
+	private static Config CONFIG_FAST = new Config(300, 0, 3000, 50);
+	
+	private final Config config = CONFIG_SLOW;
 	
 	private int lastError = 0;
 	private long integral = 0;
@@ -23,8 +35,9 @@ public class SumoPilot implements SumoRadarListener {
 		this.radar = radar;
 		this.radar.addListener(this);
 		
-		robot.setTravelSpeed(MAX_SPEED);
+		robot.setTravelSpeed(config.maxSpeed);
 		robot.setRotateSpeed(15);
+		robot.setAcceleration(10000000);
 	}
 
 	@Override
@@ -43,7 +56,7 @@ public class SumoPilot implements SumoRadarListener {
 			return;
 		}
 		
-		long turnRateLong = KP * error + KI * integral + KD * (error - lastError);
+		long turnRateLong = config.kp * error + config.ki * integral + config.kd * (error - lastError);
 		int turnRate = (int)(turnRateLong / 100);
 		
 		lastError = error;
