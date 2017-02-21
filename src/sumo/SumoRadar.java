@@ -6,7 +6,7 @@ import lejos.nxt.UltrasonicSensor;
 
 public class SumoRadar extends Thread {
 	
-	public static final int MAX_RANGE = 50;
+	public static final int MAX_RANGE = 80;
 	public static final int ERR_NOT_FOUND = 100000;
 	public static final int ERR_TOO_CLOSE = -100000;
 
@@ -30,7 +30,7 @@ public class SumoRadar extends Thread {
 	public int distanceCm = MAX_RANGE;
 	public int error = 0;
 	
-	private UltrasonicSensor sensorLeft = new UltrasonicSensor(SensorPort.S2);
+	private UltrasonicSensor sensorLeft = new UltrasonicSensor(SensorPort.S4);
 	private UltrasonicSensor sensorRight = new UltrasonicSensor(SensorPort.S3);
 
 	public void addListener(SumoRadarListener listener) {
@@ -63,7 +63,7 @@ public class SumoRadar extends Thread {
 		} else if (distanceCm < 5) {
 			error = ERR_TOO_CLOSE;
 		} else {
-			error = Math.min(distanceRightCm, MAX_RANGE) - Math.min(distanceLeftCm, MAX_RANGE);
+			error = 100 * (Math.min(distanceRightCm, MAX_RANGE) - Math.min(distanceLeftCm, MAX_RANGE)) / MAX_RANGE;
 		}
 		
 		if (wasChange()) {
@@ -94,8 +94,15 @@ public class SumoRadar extends Thread {
 		}
 	}
 	
+	final private int[] dists = new int[8];
+	
 	final private int readDistance(final UltrasonicSensor sensor) {
-		return sensor.getDistance();
+		int len = sensor.getDistances(dists);
+		int min = 255;
+		for(int i = 0; i < len; i++) {
+			if (dists[i] < min) min = dists[i];
+		}
+		return min;
 	}
 	
 	final private boolean wasChange() {

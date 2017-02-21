@@ -21,15 +21,16 @@ public class SumoPilot implements SumoRadarListener {
 		
 	}
 
-	private static Config CONFIG_SLOW = new Config(300, 0, 3000, 50);
-	private static Config CONFIG_FAST = new Config(300, 0, 3000, 50);
+	private static Config CONFIG_SLOW_OK = new Config(300, 0, 0, 50);
+	private static Config CONFIG_SLOW = new Config(500, 5, 0, 50);
+	private static Config CONFIG_FAST = new Config(100, 0, 200, 200);
 	
-	private final Config config = CONFIG_SLOW;
+	private final Config config = CONFIG_FAST;
 	
 	private int lastError = 0;
 	private long integral = 0;
 	
-	private DifferentialPilot robot = new DifferentialPilot(23.7, 130, Motor.C, Motor.B, true);
+	private DifferentialPilot robot = new DifferentialPilot(23.7, 130, Motor.B, Motor.C, true);
 	
 	public SumoPilot(SumoRadar radar) {
 		this.radar = radar;
@@ -46,7 +47,8 @@ public class SumoPilot implements SumoRadarListener {
 		
 		if (error == SumoRadar.ERR_NOT_FOUND) {
 			reset();
-			robot.rotateLeft();
+			robot.stop();
+			//robot.rotateLeft();
 			return;
 		}
 		
@@ -60,7 +62,7 @@ public class SumoPilot implements SumoRadarListener {
 		int turnRate = (int)(turnRateLong / 100);
 		
 		lastError = error;
-		integral += error;
+		if (config.ki > 0) integral += error;
 
 		robot.steer(turnRate);
 

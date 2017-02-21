@@ -32,7 +32,7 @@ public class SumoRadarDisplay implements SumoRadarListener {
 		g.clear();
 	}
 	
-	private static int CX = 5;
+	private static int CX = 25;
 	private static int CY = 30;
 	private static int EX = 95;
 	private static int EY1 = 5;
@@ -57,6 +57,8 @@ public class SumoRadarDisplay implements SumoRadarListener {
 		
 		g.drawString("" + radar.distanceLeftCm, 0, 0, 0);
 		g.drawString("" + radar.distanceRightCm, 0, 60, Graphics.BOTTOM);
+		
+		g.drawString("" + radar.error, 10, 30, Graphics.VCENTER);
 
 	}
 	
