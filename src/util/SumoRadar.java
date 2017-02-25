@@ -1,7 +1,6 @@
-package sumo;
+package util;
 
 import lejos.nxt.SensorPort;
-import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 
 public class SumoRadar extends Thread {
@@ -123,5 +122,9 @@ public class SumoRadar extends Thread {
 
 	public void stop() {
 		interrupt();
+	}
+	
+	public boolean objectDetected() {
+		return error != ERR_NOT_FOUND;
 	}
 }

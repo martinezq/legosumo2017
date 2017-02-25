@@ -1,12 +1,12 @@
-package sumo;
+package util;
 
-import lejos.nxt.Motor;
 import lejos.robotics.navigation.DifferentialPilot;
-import sumo.SumoRadar.SumoRadarListener;
+import util.SumoRadar.SumoRadarListener;
 
-public class SumoPilot implements SumoRadarListener {
+public class SumoAttackPilot implements SumoRadarListener {
 
 	private SumoRadar radar;
+	private boolean enabled = true;
 	
 	public static class Config {
 		private final int kp, ki, kd, maxSpeed;
@@ -21,7 +21,7 @@ public class SumoPilot implements SumoRadarListener {
 		
 	}
 
-	private static Config CONFIG_SLOW = new Config(150, 0, 200, 50);
+	// private static Config CONFIG_SLOW = new Config(150, 0, 200, 50);
 	private static Config CONFIG_FAST = new Config(150, 0, 200, 200);
 	
 	private final Config config = CONFIG_FAST;
@@ -29,19 +29,30 @@ public class SumoPilot implements SumoRadarListener {
 	private int lastError = 0;
 	private long integral = 0;
 	
-	private DifferentialPilot robot = new DifferentialPilot(23.7, 130, Motor.B, Motor.C, true);
+	private DifferentialPilot robot;
 	
-	public SumoPilot(SumoRadar radar) {
+	public SumoAttackPilot(SumoRadar radar, DifferentialPilot robot) {
 		this.radar = radar;
 		this.radar.addListener(this);
 		
+		this.robot = robot;
+		
+		setup();
+	}
+	
+	private void setup() {
 		robot.setTravelSpeed(config.maxSpeed);
 		robot.setRotateSpeed(15);
 		robot.setAcceleration(10000000);
+		robot.setMinRadius(0);
 	}
 
 	@Override
 	public void onChange(SumoRadar radar) {
+		if (!enabled) {
+			return;
+		}
+		
 		int error = radar.error;
 		
 		if (error == SumoRadar.ERR_NOT_FOUND) {
@@ -70,6 +81,14 @@ public class SumoPilot implements SumoRadarListener {
 	public final void reset() {
 		lastError = 0;
 		integral = 0;
+	}
+	
+	public void disable() {
+		enabled = false;
+	}
+	
+	public void enable() {
+		enabled = true;
 	}
 	
 }
