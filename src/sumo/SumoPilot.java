@@ -21,9 +21,8 @@ public class SumoPilot implements SumoRadarListener {
 		
 	}
 
-	private static Config CONFIG_SLOW_OK = new Config(300, 0, 0, 50);
-	private static Config CONFIG_SLOW = new Config(500, 5, 0, 50);
-	private static Config CONFIG_FAST = new Config(100, 0, 200, 200);
+	private static Config CONFIG_SLOW = new Config(150, 0, 200, 50);
+	private static Config CONFIG_FAST = new Config(150, 0, 200, 200);
 	
 	private final Config config = CONFIG_FAST;
 	
