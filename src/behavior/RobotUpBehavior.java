@@ -3,7 +3,6 @@ package behavior;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.robotics.navigation.DifferentialPilot;
-import lejos.robotics.navigation.Navigator;
 import util.SumoRadar;
 
 public class RobotUpBehavior extends RadarDrivenBehavior {
@@ -26,28 +25,34 @@ public class RobotUpBehavior extends RadarDrivenBehavior {
 		suppressed = false;
 		
 		setup();
+		int error = radar.getError();
+		int direction;
 		
-		robot.travelArc(100, -1000, true);
-		waitDistance(300);
-
-		robot.travelArc(-60, -1000, true);
-		waitDistance(80);
+		if (error == SumoRadar.ERR_NOT_FOUND || error == 0) {
+			direction = Math.random() > 0.5 ? 1 : -1;
+		} else {
+			direction = -Math.round(Math.signum(radar.getError()));
+		}
+		
+		robot.steerBackward(direction * 90);
+		waitDistance(350);
+		
+		robot.reset();
+		
+		robot.steerBackward(-direction * 150);
+		waitDistance(40);
 		
 		end();
 	}
 	
 	private void setup() {
-		robot.setTravelSpeed(200);
-		robot.setRotateSpeed(360);
+		robot.setTravelSpeed(robot.getMaxTravelSpeed());
+		robot.setRotateSpeed(robot.getMaxRotateSpeed());
 		robot.setAcceleration(100000);		
+		robot.reset();
 	}
 	
 	private void waitDistance(int distance) {
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			return;
-		}
 		while(Math.abs(robot.getMovementIncrement()) < distance && !suppressed) {
 			Thread.yield();
 		}		

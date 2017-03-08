@@ -6,7 +6,7 @@ import util.SumoRadar.SumoRadarListener;
 public class SumoAttackPilot implements SumoRadarListener {
 
 	private SumoRadar radar;
-	private boolean enabled = true;
+	private boolean enabled = false;
 	
 	public static class Config {
 		private final int kp, ki, kd, maxSpeed;
@@ -37,10 +37,10 @@ public class SumoAttackPilot implements SumoRadarListener {
 		
 		this.robot = robot;
 		
-		setup();
+		setupRobot();
 	}
 	
-	private void setup() {
+	public void setupRobot() {
 		robot.setTravelSpeed(config.maxSpeed);
 		robot.setRotateSpeed(15);
 		robot.setAcceleration(10000000);
@@ -53,18 +53,12 @@ public class SumoAttackPilot implements SumoRadarListener {
 			return;
 		}
 		
-		int error = radar.error;
+		int error = radar.getError();
 		
 		if (error == SumoRadar.ERR_NOT_FOUND) {
 			reset();
 			robot.stop();
 			//robot.rotateLeft();
-			return;
-		}
-		
-		if (error == SumoRadar.ERR_TOO_CLOSE) {
-			robot.stop();
-			reset();
 			return;
 		}
 		

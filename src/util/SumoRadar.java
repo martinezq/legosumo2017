@@ -5,7 +5,7 @@ import lejos.nxt.UltrasonicSensor;
 
 public class SumoRadar extends Thread {
 	
-	public static final int MAX_RANGE = 80;
+	public static final int MAX_RANGE = 40;
 	public static final int ERR_NOT_FOUND = 100000;
 	public static final int ERR_TOO_CLOSE = -100000;
 
@@ -27,7 +27,7 @@ public class SumoRadar extends Thread {
 	public int distanceLeftCm = MAX_RANGE;
 	public int distanceRightCm = MAX_RANGE;
 	public int distanceCm = MAX_RANGE;
-	public int error = 0;
+	private int error = ERR_NOT_FOUND;
 	
 	private UltrasonicSensor sensorLeft = new UltrasonicSensor(SensorPort.S4);
 	private UltrasonicSensor sensorRight = new UltrasonicSensor(SensorPort.S3);
@@ -57,13 +57,15 @@ public class SumoRadar extends Thread {
 		
 		distanceCm = Math.min(distanceLeftCm, distanceRightCm);
 		
-		if (distanceCm > MAX_RANGE) {
-			error = ERR_NOT_FOUND;
-		} else if (distanceCm < 5) {
-			error = ERR_TOO_CLOSE;
-		} else {
-			error = 100 * (Math.min(distanceRightCm, MAX_RANGE) - Math.min(distanceLeftCm, MAX_RANGE)) / MAX_RANGE;
-		}
+//		synchronized (this) {
+			if (distanceCm > MAX_RANGE) {
+				error = ERR_NOT_FOUND;
+			} else if (distanceCm < 5) {
+				error = ERR_TOO_CLOSE;
+			} else {
+				error = 100 * (Math.min(distanceRightCm, MAX_RANGE) - Math.min(distanceLeftCm, MAX_RANGE)) / MAX_RANGE;
+			}
+//		}
 		
 		if (wasChange()) {
 			notifyListeners();
@@ -74,8 +76,6 @@ public class SumoRadar extends Thread {
 	}
 	
 	final private void ping() {
-		//Sound.beep();
-		
 		if (pingLeft) {
 			sensorLeft.ping();
 		} else {
@@ -125,6 +125,14 @@ public class SumoRadar extends Thread {
 	}
 	
 	public boolean objectDetected() {
-		return error != ERR_NOT_FOUND;
+//		synchronized (this) {
+			return error != ERR_NOT_FOUND;
+//		}
+	}
+	
+	public int getError() {
+//		synchronized (this) {
+			return error;
+//		}
 	}
 }

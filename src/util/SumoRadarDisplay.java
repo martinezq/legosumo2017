@@ -58,7 +58,8 @@ public class SumoRadarDisplay implements SumoRadarListener {
 		g.drawString("" + radar.distanceLeftCm, 0, 0, 0);
 		g.drawString("" + radar.distanceRightCm, 0, 60, Graphics.BOTTOM);
 		
-		g.drawString("" + radar.error, 10, 30, Graphics.VCENTER);
+		g.drawString("" + radar.getError(), 10, 20, Graphics.VCENTER);
+		g.drawString("" + radar.objectDetected(), 10, 40, Graphics.VCENTER);
 
 	}
 	
@@ -77,11 +78,11 @@ public class SumoRadarDisplay implements SumoRadarListener {
 	private void drawArrow(int x, int y) {
 		g.setStrokeStyle(Graphics.SOLID);
 		int len = 20;
-		if (radar.error < 0) {
+		if (radar.getError() < 0) {
 			g.drawLine(x, y, x, y + len);
 			g.drawLine(x, y + len, x + 5, y + len - 5);
 			g.drawLine(x, y + len, x - 5, y + len - 5);
-		} else if (radar.error > 0) {
+		} else if (radar.getError() > 0) {
 			g.drawLine(x, y, x, y - len);
 			g.drawLine(x, y - len, x + 5, y - len + 5);
 			g.drawLine(x, y - len, x - 5, y - len + 5);
