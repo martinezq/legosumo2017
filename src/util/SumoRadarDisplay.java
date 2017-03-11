@@ -7,12 +7,21 @@ import util.SumoRadar.SumoRadarListener;
 public class SumoRadarDisplay implements SumoRadarListener {
 
 	private static SumoRadarDisplay instance;
+	private boolean display = false;
 	
 	public static void show(SumoRadar radar) {
 		if(instance == null) {
 			instance = new SumoRadarDisplay(radar);
 		}
+		instance.display = true;
 		instance.draw();
+	}
+	
+	public static void hide() {
+		if(instance != null) {
+			instance.display = false;
+			instance.clear();
+		}
 	}
 	
 	private Graphics g = new Graphics();
@@ -22,10 +31,12 @@ public class SumoRadarDisplay implements SumoRadarListener {
 		this.radar = radar;
 		this.radar.addListener(this);
 	}
-
+	
 	@Override
 	public void onChange(SumoRadar radar) {
-		draw();
+		if (display) {
+			draw();
+		}
 	}
 	
 	private void clear() {
@@ -78,11 +89,17 @@ public class SumoRadarDisplay implements SumoRadarListener {
 	private void drawArrow(int x, int y) {
 		g.setStrokeStyle(Graphics.SOLID);
 		int len = 20;
-		if (radar.getError() < 0) {
+		
+		int error = radar.getError();
+		if (error == radar.ERR_NOT_FOUND || error == radar.ERR_TOO_CLOSE) {
+			error = radar.getLastError();
+		}
+		
+		if (error < 0) {
 			g.drawLine(x, y, x, y + len);
 			g.drawLine(x, y + len, x + 5, y + len - 5);
 			g.drawLine(x, y + len, x - 5, y + len - 5);
-		} else if (radar.getError() > 0) {
+		} else if (error > 0) {
 			g.drawLine(x, y, x, y - len);
 			g.drawLine(x, y - len, x + 5, y - len + 5);
 			g.drawLine(x, y - len, x - 5, y - len + 5);

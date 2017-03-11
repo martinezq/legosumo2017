@@ -17,7 +17,7 @@ public class SumoAttackPilot implements SumoRadarListener {
 			this.kp = settings.pidP;
 			this.ki = settings.pidI;
 			this.kd = settings.pidD;
-			this.speedPrc = settings.speed;
+			this.speedPrc = settings.attackSpeed;
 		}
 		
 	}

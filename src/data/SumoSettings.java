@@ -14,22 +14,30 @@ public class SumoSettings {
 
 	private final static int VERSION = 1;
 	
-	public int speed = 100;
+	public int startupDelay = 0;
+	public int startupAngle = 0;
+	
+	public int attackSpeed = 100;
 	public int pidP = 150;
 	public int pidI = 0;
 	public int pidD = 200;
-	public int range = 50;
+	public int attackWheelSpeed = 100;
+	
+	public int searchRange = 50;
+	public int searchTurnRatio = 90;
+	public int searchSpeed = 50;
+	
 	public int escapeTurnRatio1 = 90;
 	public int escapeTurnDistance1 = 350;
 	public int escapeTurnRatio2 = 150;
 	public int escapeTurnDistance2 = 40;
 	
 	public void save() {
-		save("settings" + VERSION + ".conf");
+		save("sumo_" + VERSION + ".conf");
 	}
 	
 	public static SumoSettings read() {
-		return read("settings" + VERSION + ".conf");
+		return read("sumo_" + VERSION + ".conf");
 	}
 
 	public void save(final String filename) {
@@ -48,11 +56,20 @@ public class SumoSettings {
 
 		try {
 			dataOut.writeInt(VERSION);
-			dataOut.writeInt(speed);
+			
+			dataOut.writeInt(startupDelay);
+			dataOut.writeInt(startupAngle);
+			
+			dataOut.writeInt(searchSpeed);
+			dataOut.writeInt(searchRange);
+			dataOut.writeInt(searchTurnRatio);
+			
+			dataOut.writeInt(attackSpeed);
 			dataOut.writeInt(pidP);
 			dataOut.writeInt(pidI);
 			dataOut.writeInt(pidD);
-			dataOut.writeInt(range);
+			dataOut.writeInt(attackWheelSpeed);
+			
 			dataOut.writeInt(escapeTurnRatio1);
 			dataOut.writeInt(escapeTurnDistance1);
 			dataOut.writeInt(escapeTurnRatio2);
@@ -86,11 +103,19 @@ public class SumoSettings {
 				return null;
 			}
 			
-			settings.speed = din.readInt();
+			settings.startupDelay = din.readInt();
+			settings.startupAngle = din.readInt();
+			
+			settings.searchSpeed = din.readInt();
+			settings.searchRange = din.readInt();
+			settings.searchTurnRatio = din.readInt();
+			
+			settings.attackSpeed = din.readInt();
 			settings.pidP = din.readInt();
 			settings.pidI = din.readInt();
 			settings.pidD = din.readInt();
-			settings.range = din.readInt();
+			settings.attackWheelSpeed = din.readInt();
+			
 			settings.escapeTurnRatio1 = din.readInt();
 			settings.escapeTurnDistance1 = din.readInt();
 			settings.escapeTurnRatio2 = din.readInt();

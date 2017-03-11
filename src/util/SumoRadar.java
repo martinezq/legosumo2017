@@ -30,6 +30,7 @@ public class SumoRadar extends Thread {
 	public int distanceRightCm;
 	public int distanceCm;
 	private int error = ERR_NOT_FOUND;
+	private int lastError = 0;
 	
 	private UltrasonicSensor sensorLeft = new UltrasonicSensor(SensorPort.S4);
 	private UltrasonicSensor sensorRight = new UltrasonicSensor(SensorPort.S3);
@@ -39,7 +40,7 @@ public class SumoRadar extends Thread {
 	}
 	
 	public SumoRadar(final SumoSettings settings) {
-		range = settings.range;
+		range = settings.searchRange;
 		lastDistanceLeftCm = range;
 		lastDistanceRightCm = range;
 		distanceCm = range;
@@ -68,15 +69,21 @@ public class SumoRadar extends Thread {
 		
 		distanceCm = Math.min(distanceLeftCm, distanceRightCm);
 		
-//		synchronized (this) {
-			if (distanceCm > range) {
-				error = ERR_NOT_FOUND;
-			} else if (distanceCm < 5) {
-				error = ERR_TOO_CLOSE;
-			} else {
-				error = 100 * (Math.min(distanceRightCm, range) - Math.min(distanceLeftCm, range)) / range;
-			}
-//		}
+		int lastErrorBackup = lastError;
+		
+		lastError = error;
+
+		if (distanceCm > range) {
+			error = ERR_NOT_FOUND;
+		} else if (distanceCm < 5) {
+			error = ERR_TOO_CLOSE;
+		} else {
+			error = 100 * (Math.min(distanceRightCm, range) - Math.min(distanceLeftCm, range)) / range;
+		}
+			
+		if (lastError == ERR_NOT_FOUND || lastError == ERR_TOO_CLOSE) {
+			lastError = lastErrorBackup;
+		}
 		
 		if (wasChange()) {
 			notifyListeners();
@@ -145,5 +152,9 @@ public class SumoRadar extends Thread {
 //		synchronized (this) {
 			return error;
 //		}
+	}
+	
+	public int getLastError() {
+		return lastError;
 	}
 }
