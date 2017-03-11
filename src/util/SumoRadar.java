@@ -1,11 +1,11 @@
 package util;
 
+import data.SumoSettings;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 
 public class SumoRadar extends Thread {
 	
-	public static final int MAX_RANGE = 40;
 	public static final int ERR_NOT_FOUND = 100000;
 	public static final int ERR_TOO_CLOSE = -100000;
 
@@ -15,18 +15,20 @@ public class SumoRadar extends Thread {
 		public void onChange(SumoRadar radar);
 	}
 
+	private final int range;
+	
 	private SumoRadarListener[] listeners = new SumoRadarListener[5];
 	private int listenersCount = 0;
 	
 	private boolean pingLeft = true;
 	private int lastPingTime = 0;
 	
-	private int lastDistanceLeftCm = MAX_RANGE;
-	private int lastDistanceRightCm = MAX_RANGE;	
+	private int lastDistanceLeftCm;
+	private int lastDistanceRightCm;	
 	
-	public int distanceLeftCm = MAX_RANGE;
-	public int distanceRightCm = MAX_RANGE;
-	public int distanceCm = MAX_RANGE;
+	public int distanceLeftCm;
+	public int distanceRightCm;
+	public int distanceCm;
 	private int error = ERR_NOT_FOUND;
 	
 	private UltrasonicSensor sensorLeft = new UltrasonicSensor(SensorPort.S4);
@@ -34,6 +36,15 @@ public class SumoRadar extends Thread {
 
 	public void addListener(SumoRadarListener listener) {
 		this.listeners[listenersCount++] = listener;
+	}
+	
+	public SumoRadar(final SumoSettings settings) {
+		range = settings.range;
+		lastDistanceLeftCm = range;
+		lastDistanceRightCm = range;
+		distanceCm = range;
+		distanceLeftCm = range;
+		distanceRightCm = range;
 	}
 	
 	@Override
@@ -58,12 +69,12 @@ public class SumoRadar extends Thread {
 		distanceCm = Math.min(distanceLeftCm, distanceRightCm);
 		
 //		synchronized (this) {
-			if (distanceCm > MAX_RANGE) {
+			if (distanceCm > range) {
 				error = ERR_NOT_FOUND;
 			} else if (distanceCm < 5) {
 				error = ERR_TOO_CLOSE;
 			} else {
-				error = 100 * (Math.min(distanceRightCm, MAX_RANGE) - Math.min(distanceLeftCm, MAX_RANGE)) / MAX_RANGE;
+				error = 100 * (Math.min(distanceRightCm, range) - Math.min(distanceLeftCm, range)) / range;
 			}
 //		}
 		

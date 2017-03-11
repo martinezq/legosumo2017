@@ -1,5 +1,6 @@
 package behavior;
 
+import data.SumoSettings;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.robotics.navigation.DifferentialPilot;
@@ -10,8 +11,17 @@ public class RobotUpBehavior extends RadarDrivenBehavior {
 	TouchSensor touch = new TouchSensor(SensorPort.S1);
 	DifferentialPilot robot;
 	
-	public RobotUpBehavior(SumoRadar radar, DifferentialPilot robot) {
+	private final int turnRatio1;
+	private final int turnDistance1;
+	private final int turnRatio2;
+	private final int turnDistance2;
+	
+	public RobotUpBehavior(SumoRadar radar, DifferentialPilot robot, SumoSettings settings) {
 		super(radar);
+		turnRatio1 = settings.escapeTurnRatio1;
+		turnDistance1 = settings.escapeTurnDistance1;
+		turnRatio2 = settings.escapeTurnRatio2;
+		turnDistance2 = settings.escapeTurnDistance2;
 		this.robot = robot;
 	}
 
@@ -34,13 +44,13 @@ public class RobotUpBehavior extends RadarDrivenBehavior {
 			direction = -Math.round(Math.signum(radar.getError()));
 		}
 		
-		robot.steerBackward(direction * 90);
-		waitDistance(350);
+		robot.steerBackward(direction * turnRatio1);
+		waitDistance(turnDistance1);
 		
 		robot.reset();
 		
-		robot.steerBackward(-direction * 150);
-		waitDistance(40);
+		robot.steerBackward(-direction * turnRatio2);
+		waitDistance(turnDistance2);
 		
 		end();
 	}

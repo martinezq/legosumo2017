@@ -1,4 +1,4 @@
-package sumo;
+package gui;
 
 import javax.microedition.lcdui.Graphics;
 

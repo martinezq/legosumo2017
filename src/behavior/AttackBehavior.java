@@ -1,6 +1,6 @@
 package behavior;
 
-import lejos.nxt.Sound;
+import data.SumoSettings;
 import lejos.robotics.navigation.DifferentialPilot;
 import util.SumoAttackPilot;
 import util.SumoRadar;
@@ -10,10 +10,10 @@ public class AttackBehavior extends RadarDrivenBehavior {
 	SumoAttackPilot pilot;
 	DifferentialPilot robot;
 	
-	public AttackBehavior(SumoRadar radar, DifferentialPilot robot) {
+	public AttackBehavior(SumoRadar radar, DifferentialPilot robot, SumoSettings settings) {
 		super(radar);
 		this.robot = robot;
-		pilot = new SumoAttackPilot(radar, robot);
+		pilot = new SumoAttackPilot(radar, robot, settings);
 		pilot.disable();
 	}
 

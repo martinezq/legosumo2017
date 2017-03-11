@@ -1,5 +1,6 @@
 package util;
 
+import data.SumoSettings;
 import lejos.robotics.navigation.DifferentialPilot;
 import util.SumoRadar.SumoRadarListener;
 
@@ -9,29 +10,27 @@ public class SumoAttackPilot implements SumoRadarListener {
 	private boolean enabled = false;
 	
 	public static class Config {
-		private final int kp, ki, kd, maxSpeed;
+		private final int kp, ki, kd, speedPrc;
 
-		public Config(int kp, int ki, int kd, int maxSpeed) {
+		public Config(final SumoSettings settings) {
 			super();
-			this.kp = kp;
-			this.ki = ki;
-			this.kd = kd;
-			this.maxSpeed = maxSpeed;
+			this.kp = settings.pidP;
+			this.ki = settings.pidI;
+			this.kd = settings.pidD;
+			this.speedPrc = settings.speed;
 		}
 		
 	}
-
-	// private static Config CONFIG_SLOW = new Config(150, 0, 200, 50);
-	private static Config CONFIG_FAST = new Config(150, 0, 200, 200);
 	
-	private final Config config = CONFIG_FAST;
+	private final Config config;
 	
 	private int lastError = 0;
 	private long integral = 0;
 	
 	private DifferentialPilot robot;
 	
-	public SumoAttackPilot(SumoRadar radar, DifferentialPilot robot) {
+	public SumoAttackPilot(SumoRadar radar, DifferentialPilot robot, SumoSettings settings) {
+		this.config = new Config(settings);
 		this.radar = radar;
 		this.radar.addListener(this);
 		
@@ -41,7 +40,8 @@ public class SumoAttackPilot implements SumoRadarListener {
 	}
 	
 	public void setupRobot() {
-		robot.setTravelSpeed(config.maxSpeed);
+		final int speed = (int)Math.round(robot.getMaxTravelSpeed() * config.speedPrc / 100);
+		robot.setTravelSpeed(speed);
 		robot.setRotateSpeed(15);
 		robot.setAcceleration(10000000);
 		robot.setMinRadius(0);
