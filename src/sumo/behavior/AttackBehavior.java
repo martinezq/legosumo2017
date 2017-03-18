@@ -12,7 +12,7 @@ public class AttackBehavior extends RadarDrivenBehavior {
 	private int wheelSpeedPrc;
 	
 	public AttackBehavior(SumoRadar radar, DifferentialPilot robot, SumoSettings settings) {
-		super(radar);
+		super(radar, settings);
 		pilot = new SumoAttackPilot(radar, robot, settings);
 		pilot.disable();
 		wheelSpeedPrc = settings.attackWheelSpeed;
@@ -27,8 +27,10 @@ public class AttackBehavior extends RadarDrivenBehavior {
 	public void action() {
 		//RConsole.println("attack action");
 		suppressed = false;
-		SumoRadarDisplay.show(radar);
-
+		if (showRadar) {
+			SumoRadarDisplay.show(radar);
+		}
+		
 		pilot.setupRobot();
 		pilot.reset();
 		pilot.enable();
@@ -44,7 +46,10 @@ public class AttackBehavior extends RadarDrivenBehavior {
 		
 		pilot.disable();
 		Motor.A.flt();
-		SumoRadarDisplay.hide();
+		
+		if (showRadar) {
+			SumoRadarDisplay.hide();
+		}
 	}
 
 }

@@ -16,7 +16,7 @@ public class RobotUpBehavior extends RadarDrivenBehavior {
 	private final int turnDistance2;
 	
 	public RobotUpBehavior(SumoRadar radar, DifferentialPilot robot, SumoSettings settings) {
-		super(radar);
+		super(radar, settings);
 		turnRatio1 = settings.escapeTurnRatio1;
 		turnDistance1 = settings.escapeTurnDistance1;
 		turnRatio2 = settings.escapeTurnRatio2;

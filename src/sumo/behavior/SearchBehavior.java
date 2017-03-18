@@ -14,7 +14,7 @@ public class SearchBehavior extends RadarDrivenBehavior {
 	private int turnRatio;
 	
 	public SearchBehavior(SumoRadar radar, DifferentialPilot robot, SumoSettings settings) {
-		super(radar);
+		super(radar, settings);
 		this.robot = robot;
 		this.speedPrc = settings.searchSpeed;
 		this.turnRatio = settings.searchTurnRatio;
@@ -29,7 +29,11 @@ public class SearchBehavior extends RadarDrivenBehavior {
 	public void action() {
 		//RConsole.println("search action");
 		suppressed = false;
-		SumoRadarDisplay.show(radar);
+		
+		if (showRadar) {
+			SumoRadarDisplay.show(radar);
+		}
+		
 		setup();
 		direction = (int)Math.signum(radar.getLastError());
 		
@@ -43,7 +47,9 @@ public class SearchBehavior extends RadarDrivenBehavior {
 			Thread.yield();
 		}
 		
-		SumoRadarDisplay.hide();
+		if (showRadar) {
+			SumoRadarDisplay.hide();
+		}
 	}
 
 	private void setup() {

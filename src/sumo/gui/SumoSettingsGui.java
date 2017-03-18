@@ -15,7 +15,7 @@ public class SumoSettingsGui implements CommandListener {
 	private final static Command COMMAND_EXIT = new Command(1, Command.BACK, 1);
 	private final static Command COMMAND_BACK = new Command(0, Command.BACK, 0);
 	
-	private final static String STARTUP = "Startup";
+	private final static String GENERAL = "General";
 	private final static String STARTUP_POSITION = "Startup position";
 	private final static String SEARCH = "Search";
 	private final static String ATTACK = "Attack";
@@ -29,13 +29,14 @@ public class SumoSettingsGui implements CommandListener {
 	
 	private List menu;
 	
-	private Form formStartup;
+	private Form formGeneral;
 	private Form formAttack;
 	private Form formDefense;
 	private Form formSearch;	
 	
-	private SumoPositionScreen positionScreen;
+	private NumericField showRadarField;
 	
+	private SumoPositionScreen positionScreen;
 	private NumericField startupDelayField;
 	
 	private NumericField attackSpeedField;
@@ -65,7 +66,7 @@ public class SumoSettingsGui implements CommandListener {
 		
 		menu = new List("Settings:", Choice.IMPLICIT);
 		
-		menu.append(STARTUP, null);
+		menu.append(GENERAL, null);
 		menu.append(STARTUP_POSITION, null);
 		menu.append(SEARCH, null);
 		menu.append(ATTACK, null);
@@ -81,11 +82,13 @@ public class SumoSettingsGui implements CommandListener {
 		positionScreen.setCommandListener(this);
 		positionScreen.addCommand(COMMAND_BACK);
 		
-		formStartup = new Form("Startup settings:");
+		formGeneral = new Form("General settings:");
 		formSearch = new Form("Search settings:");
 		formAttack = new Form("Attack settings:");
 		formDefense = new Form("Defense settings:");
 		
+		showRadarField =    new NumericField("show rad.: ", settings.showRadar, 0, 1, 1);
+				
 		startupDelayField =    new NumericField("delay[s]:  ", settings.startupDelay, 0, 5, 1);
 		
 		searchRangeField =     new NumericField("range[cm]: ", settings.searchRange, 10, 200, 10);
@@ -105,10 +108,11 @@ public class SumoSettingsGui implements CommandListener {
 
 		borderValueField = new NumericField("border[cl]:", settings.borderValue, 0, 100, 2);
 		
-		formStartup.append(startupDelayField);
+		formGeneral.append(showRadarField);
+		formGeneral.append(startupDelayField);
 		
-		formStartup.addCommand(COMMAND_BACK);
-		formStartup.setCommandListener(this);
+		formGeneral.addCommand(COMMAND_BACK);
+		formGeneral.setCommandListener(this);
 		
 		formSearch.append(searchRangeField);
 		formSearch.append(searchSpeedField);
@@ -143,6 +147,8 @@ public class SumoSettingsGui implements CommandListener {
 	}
 	
 	private void save() {
+		settings.showRadar = showRadarField.getValue();
+		
 		settings.startupDelay = startupDelayField.getValue();
 		settings.startupAngle = positionScreen.getValue();
 		
@@ -167,6 +173,8 @@ public class SumoSettingsGui implements CommandListener {
 	}
 	
 	private void init() {
+		showRadarField.setValue(settings.showRadar);
+		
 		startupDelayField.setValue(settings.startupDelay);
 		positionScreen.setValue(settings.startupAngle);
 		
@@ -202,8 +210,8 @@ public class SumoSettingsGui implements CommandListener {
 		
 		if (d == menu) {
 			final String option = menu.getString(menu.getSelectedIndex());
-			if (STARTUP.equals(option)) {
-				display.setCurrent(formStartup);
+			if (GENERAL.equals(option)) {
+				display.setCurrent(formGeneral);
 			} else if (STARTUP_POSITION.equals(option)) {
 				display.setCurrent(positionScreen);
 			} else if (SEARCH.equals(option)) {

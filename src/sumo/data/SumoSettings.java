@@ -14,6 +14,7 @@ public class SumoSettings {
 
 	private final static int VERSION = 1;
 	
+	public int showRadar = 1;
 	public int startupDelay = 0;
 	public int startupAngle = 0;
 	
@@ -58,6 +59,8 @@ public class SumoSettings {
 
 		try {
 			dataOut.writeInt(VERSION);
+			
+			dataOut.writeInt(showRadar);
 			
 			dataOut.writeInt(startupDelay);
 			dataOut.writeInt(startupAngle);
@@ -106,6 +109,7 @@ public class SumoSettings {
 				din.close();
 				return null;
 			}
+			settings.showRadar = din.readInt();
 			
 			settings.startupDelay = din.readInt();
 			settings.startupAngle = din.readInt();
