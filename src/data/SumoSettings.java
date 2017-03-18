@@ -32,6 +32,8 @@ public class SumoSettings {
 	public int escapeTurnRatio2 = 150;
 	public int escapeTurnDistance2 = 40;
 	
+	public int borderValue = 50;
+	
 	public void save() {
 		save("sumo_" + VERSION + ".conf");
 	}
@@ -74,6 +76,8 @@ public class SumoSettings {
 			dataOut.writeInt(escapeTurnDistance1);
 			dataOut.writeInt(escapeTurnRatio2);
 			dataOut.writeInt(escapeTurnDistance2);
+			dataOut.writeInt(borderValue);
+			
 			out.close();
 		} catch (IOException e) {
 			System.err.println("Failed to write to output stream");
@@ -120,6 +124,7 @@ public class SumoSettings {
 			settings.escapeTurnDistance1 = din.readInt();
 			settings.escapeTurnRatio2 = din.readInt();
 			settings.escapeTurnDistance2 = din.readInt();
+			settings.borderValue = din.readInt();
 			
 			din.close();
 		} catch (IOException ioe) {

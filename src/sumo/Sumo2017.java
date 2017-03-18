@@ -1,6 +1,7 @@
 package sumo;
 
 import behavior.AttackBehavior;
+import behavior.BorderBehavior;
 import behavior.ProgramEndBehavior;
 import behavior.RobotUpBehavior;
 import behavior.SearchBehavior;
@@ -8,6 +9,7 @@ import behavior.StartupDelayBehavior;
 import behavior.StartupPositionBehavior;
 import data.SumoSettings;
 import lejos.nxt.Motor;
+import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
@@ -20,8 +22,10 @@ public class Sumo2017 {
 	private final static double GEARED_20_12_TRACK_WHEEL_DELIMETER = 30.5;
 	
 	public static void main(String[] args) {
+		//RConsole.open();
 		SumoSettings settings = SumoSettings.read();
 		action(settings);
+		//RConsole.close();
 	}
 	
 	private static void action(final SumoSettings settings) {
@@ -35,8 +39,9 @@ public class Sumo2017 {
 		ProgramEndBehavior end = new ProgramEndBehavior();
 		RobotUpBehavior up = new RobotUpBehavior(radar, robot, settings);
 		SearchBehavior search = new SearchBehavior(radar, robot, settings);
+		BorderBehavior border = new BorderBehavior(robot, settings);
 		
-		Behavior[] behaviorList = new Behavior[] { search, attack, up, position, delay, end };
+		Behavior[] behaviorList = new Behavior[] { search, attack, border, up, position, delay, end };
 		
 		Arbitrator arbitrator = new Arbitrator(behaviorList);
 		

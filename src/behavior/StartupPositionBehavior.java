@@ -3,7 +3,6 @@ package behavior;
 import data.SumoSettings;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
-import util.SumoRadarDisplay;
 
 public class StartupPositionBehavior implements Behavior {
 

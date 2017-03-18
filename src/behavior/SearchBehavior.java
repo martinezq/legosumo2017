@@ -1,6 +1,7 @@
 package behavior;
 
 import data.SumoSettings;
+import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
 import util.SumoRadar;
 import util.SumoRadarDisplay;
@@ -22,11 +23,12 @@ public class SearchBehavior extends RadarDrivenBehavior {
 
 	@Override
 	public boolean takeControl() {
-		return !radar.objectDetected();
+		return !objectDetectedSafe();
 	}
 
 	@Override
 	public void action() {
+		//RConsole.println("search action");
 		suppressed = false;
 		SumoRadarDisplay.show(radar);
 		setup();
@@ -34,7 +36,7 @@ public class SearchBehavior extends RadarDrivenBehavior {
 		
 		robot.steer(turnRatio * direction);
 		
-		while(!radar.objectDetected() && !suppressed) {
+		while(!suppressed) {
 			Thread.yield();
 		}
 		

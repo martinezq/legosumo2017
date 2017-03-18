@@ -9,6 +9,7 @@ public class SumoRadarDisplay implements SumoRadarListener {
 	private static SumoRadarDisplay instance;
 	private boolean display = false;
 	
+	//TODO makes no sense, because there is no way to change a displayed radar
 	public static void show(SumoRadar radar) {
 		if(instance == null) {
 			instance = new SumoRadarDisplay(radar);
@@ -52,11 +53,11 @@ public class SumoRadarDisplay implements SumoRadarListener {
 	private static int LENX = EX - CX;
 	private static int LENY = EY2 - EY1;
 	
-	private void draw() {
+	private void draw() {	
 		clear();
 		drawScene();
 		drawEnemy();
-		drawArrow(5, 30);
+		drawArrow(5, 30);			
 	}
 	
 	private void drawScene() {

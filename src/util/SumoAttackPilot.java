@@ -75,6 +75,7 @@ public class SumoAttackPilot implements SumoRadarListener {
 	public final void reset() {
 		lastError = 0;
 		integral = 0;
+		robot.reset();
 	}
 	
 	public void disable() {

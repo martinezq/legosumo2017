@@ -2,6 +2,7 @@ package behavior;
 
 import data.SumoSettings;
 import lejos.nxt.Motor;
+import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
 import util.SumoAttackPilot;
 import util.SumoRadar;
@@ -21,11 +22,12 @@ public class AttackBehavior extends RadarDrivenBehavior {
 
 	@Override
 	public boolean takeControl() {
-		return radar.objectDetected();
+		return objectDetectedSafe();
 	}
 	
 	@Override
 	public void action() {
+		//RConsole.println("attack action");
 		suppressed = false;
 		SumoRadarDisplay.show(radar);
 
@@ -38,7 +40,7 @@ public class AttackBehavior extends RadarDrivenBehavior {
 		Motor.A.setSpeed(speed);
 		Motor.A.forward();
 		
-		while(radar.objectDetected() && !suppressed) {
+		while(objectDetectedSafe() && !suppressed) {
 			Thread.yield();
 		}
 		

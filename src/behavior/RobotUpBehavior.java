@@ -43,16 +43,20 @@ public class RobotUpBehavior extends RadarDrivenBehavior {
 		} else {
 			direction = -Math.round(Math.signum(radar.getError()));
 		}
+		if (!suppressed) {
+			robot.steerBackward(direction * turnRatio1);
+			waitDistance(turnDistance1);
+		}
 		
-		robot.steerBackward(direction * turnRatio1);
-		waitDistance(turnDistance1);
+		if (!suppressed) {
+			robot.reset();
+			robot.steerBackward(-direction * turnRatio2);
+			waitDistance(turnDistance2);
+		}
 		
-		robot.reset();
-		
-		robot.steerBackward(-direction * turnRatio2);
-		waitDistance(turnDistance2);
-		
-		end();
+		if (!suppressed) {
+			end();
+		}
 	}
 	
 	private void setup() {

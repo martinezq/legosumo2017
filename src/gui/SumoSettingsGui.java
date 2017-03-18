@@ -53,6 +53,8 @@ public class SumoSettingsGui implements CommandListener {
 	private NumericField escapeTurnRatio2Field;
 	private NumericField escapeTurnDistance2Field;
 	
+	private NumericField borderValueField;
+	
 	public static void show(final SumoSettings settings) {
 		final SumoSettingsGui gui = new SumoSettingsGui(settings);
 		gui.display();
@@ -101,6 +103,8 @@ public class SumoSettingsGui implements CommandListener {
 		escapeTurnRatio2Field =     new NumericField("etr2:      ", settings.escapeTurnRatio2, 0, 200, 10);
 		escapeTurnDistance2Field =  new NumericField("etd2[cm]:  ", settings.escapeTurnDistance2, 0, 1000, 10);
 
+		borderValueField = new NumericField("border[cl]:", settings.borderValue, 0, 100, 2);
+		
 		formStartup.append(startupDelayField);
 		
 		formStartup.addCommand(COMMAND_BACK);
@@ -126,6 +130,7 @@ public class SumoSettingsGui implements CommandListener {
 		formDefense.append(escapeTurnDistance1Field);
 		formDefense.append(escapeTurnRatio2Field);
 		formDefense.append(escapeTurnDistance2Field);
+		formDefense.append(borderValueField);
 
 		formDefense.addCommand(COMMAND_BACK);
 		formDefense.setCommandListener(this);
@@ -156,6 +161,8 @@ public class SumoSettingsGui implements CommandListener {
 		settings.escapeTurnRatio2 = escapeTurnRatio2Field.getValue();
 		settings.escapeTurnDistance2 = escapeTurnDistance2Field.getValue();
 		
+		settings.borderValue = borderValueField.getValue();
+		
 		settings.save();
 	}
 	
@@ -177,6 +184,8 @@ public class SumoSettingsGui implements CommandListener {
 		escapeTurnDistance1Field.setValue(settings.escapeTurnDistance1);
 		escapeTurnRatio2Field.setValue(settings.escapeTurnRatio2);
 		escapeTurnDistance2Field.setValue(settings.escapeTurnDistance2);
+		
+		borderValueField.setValue(settings.borderValue);
 	}
 	
 	@Override
