@@ -17,10 +17,10 @@ public abstract class RadarDrivenBehavior implements Behavior {
 		suppressed = true;
 	}
 	
-	protected boolean objectDetectedSafe() {
-		synchronized (radar) {
-			return radar.objectDetected();
-		}
+	protected boolean objectDetected() {
+		// synchronized (radar) {
+		return radar.objectDetected();
+		// }
 	}
 
 }

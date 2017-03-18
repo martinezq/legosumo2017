@@ -45,6 +45,7 @@ public class SumoAttackPilot implements SumoRadarListener {
 		robot.setRotateSpeed(15);
 		robot.setAcceleration(10000000);
 		robot.setMinRadius(0);
+		robot.reset();
 	}
 
 	@Override
@@ -57,8 +58,6 @@ public class SumoAttackPilot implements SumoRadarListener {
 		
 		if (error == SumoRadar.ERR_NOT_FOUND) {
 			reset();
-			robot.stop();
-			//robot.rotateLeft();
 			return;
 		}
 		
@@ -75,7 +74,6 @@ public class SumoAttackPilot implements SumoRadarListener {
 	public final void reset() {
 		lastError = 0;
 		integral = 0;
-		robot.reset();
 	}
 	
 	public void disable() {

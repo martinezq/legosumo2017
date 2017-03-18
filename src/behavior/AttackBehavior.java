@@ -22,7 +22,7 @@ public class AttackBehavior extends RadarDrivenBehavior {
 
 	@Override
 	public boolean takeControl() {
-		return objectDetectedSafe();
+		return objectDetected();
 	}
 	
 	@Override
@@ -40,7 +40,7 @@ public class AttackBehavior extends RadarDrivenBehavior {
 		Motor.A.setSpeed(speed);
 		Motor.A.forward();
 		
-		while(objectDetectedSafe() && !suppressed) {
+		while(objectDetected() && !suppressed) {
 			Thread.yield();
 		}
 		

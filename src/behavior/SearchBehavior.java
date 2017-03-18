@@ -23,7 +23,7 @@ public class SearchBehavior extends RadarDrivenBehavior {
 
 	@Override
 	public boolean takeControl() {
-		return !objectDetectedSafe();
+		return !objectDetected();
 	}
 
 	@Override
@@ -46,6 +46,7 @@ public class SearchBehavior extends RadarDrivenBehavior {
 	private void setup() {
 		final int speed = (int)Math.round(robot.getMaxTravelSpeed() * speedPrc / 100);
 		robot.setTravelSpeed(speed);
-		robot.setAcceleration(100000);		
+		robot.setAcceleration(100000);	
+		robot.reset();
 	}
 }

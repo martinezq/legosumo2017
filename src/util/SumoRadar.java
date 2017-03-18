@@ -67,35 +67,35 @@ public class SumoRadar extends Thread {
 		readDistances();
 		pingLeft = !pingLeft;
 		ping();
-		
+
 		if (!wasChange()) {
 			return;
 		}
 
 		distanceCm = Math.min(distanceLeftCm, distanceRightCm);
 
-		synchronized (this) {
-			int lastErrorBackup = lastError;
+		// synchronized (this) {
+		int lastErrorBackup = lastError;
 
-			lastError = error;
+		lastError = error;
 
-			if (distanceCm > range) {
-				error = ERR_NOT_FOUND;
-			} else if (distanceCm < 5) {
-				error = ERR_TOO_CLOSE;
-			} else {
-				error = 100 * (Math.min(distanceRightCm, range) - Math.min(distanceLeftCm, range)) / range;
-			}
-			if (lastError == ERR_NOT_FOUND || lastError == ERR_TOO_CLOSE) {
-				lastError = lastErrorBackup;
-			}
+		if (distanceCm > range) {
+			error = ERR_NOT_FOUND;
+		} else if (distanceCm < 5) {
+			error = ERR_TOO_CLOSE;
+		} else {
+			error = 100 * (Math.min(distanceRightCm, range) - Math.min(distanceLeftCm, range)) / range;
 		}
+		if (lastError == ERR_NOT_FOUND || lastError == ERR_TOO_CLOSE) {
+			lastError = lastErrorBackup;
+		}
+		// }
 
 		notifyListeners();
 
 		lastDistanceLeftCm = distanceLeftCm;
 		lastDistanceRightCm = distanceRightCm;
-	
+
 	}
 
 	final private void ping() {
@@ -133,11 +133,11 @@ public class SumoRadar extends Thread {
 	}
 
 	final private void notifyListeners() {
-		//RConsole.println("radar notify listeners");
+		// RConsole.println("radar notify listeners");
 		for (int i = 0; i < listenersCount; i++) {
 			listeners[i].onChange(this);
 		}
-		//RConsole.println("radar notifi listeners done");
+		// RConsole.println("radar notifi listeners done");
 	}
 
 	@Override

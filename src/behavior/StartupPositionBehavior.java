@@ -26,7 +26,7 @@ public class StartupPositionBehavior implements Behavior {
 		suppressed = false;
 		
 		robot.setRotateSpeed(robot.getMaxRotateSpeed());
-		
+		robot.reset();
 		robot.rotate(angle, false);
 		
 		while(!suppressed && robot.isMoving()) {

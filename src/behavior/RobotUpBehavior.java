@@ -54,9 +54,6 @@ public class RobotUpBehavior extends RadarDrivenBehavior {
 			waitDistance(turnDistance2);
 		}
 		
-		if (!suppressed) {
-			end();
-		}
 	}
 	
 	private void setup() {
@@ -70,10 +67,6 @@ public class RobotUpBehavior extends RadarDrivenBehavior {
 		while(Math.abs(robot.getMovementIncrement()) < distance && !suppressed) {
 			Thread.yield();
 		}		
-	}
-	
-	private void end() {
-		robot.stop();
 	}
 
 }
