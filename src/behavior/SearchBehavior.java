@@ -34,6 +34,10 @@ public class SearchBehavior extends RadarDrivenBehavior {
 		setup();
 		direction = (int)Math.signum(radar.getLastError());
 		
+		if (direction == 0) {
+			direction = Math.random() > 0.5 ? 1 : -1;
+		}
+		
 		robot.steer(turnRatio * direction);
 		
 		while(!suppressed) {

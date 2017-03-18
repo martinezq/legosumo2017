@@ -74,7 +74,6 @@ public class SumoRadar extends Thread {
 
 		distanceCm = Math.min(distanceLeftCm, distanceRightCm);
 
-		// synchronized (this) {
 		int lastErrorBackup = lastError;
 
 		lastError = error;
