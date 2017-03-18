@@ -1,12 +1,10 @@
-package behavior;
+package sumo.behavior;
 
-import data.SumoSettings;
 import lejos.nxt.Motor;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
-import util.SumoAttackPilot;
-import util.SumoRadar;
-import util.SumoRadarDisplay;
+import sumo.data.SumoSettings;
+import sumo.gui.SumoRadarDisplay;
 
 public class AttackBehavior extends RadarDrivenBehavior {
 

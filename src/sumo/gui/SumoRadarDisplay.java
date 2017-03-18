@@ -1,8 +1,9 @@
-package util;
+package sumo.gui;
 
 import javax.microedition.lcdui.Graphics;
 
-import util.SumoRadar.SumoRadarListener;
+import sumo.behavior.SumoRadar;
+import sumo.behavior.SumoRadar.SumoRadarListener;
 
 public class SumoRadarDisplay implements SumoRadarListener {
 

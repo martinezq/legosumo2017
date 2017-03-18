@@ -1,8 +1,8 @@
-package util;
+package sumo.behavior;
 
-import data.SumoSettings;
 import lejos.robotics.navigation.DifferentialPilot;
-import util.SumoRadar.SumoRadarListener;
+import sumo.behavior.SumoRadar.SumoRadarListener;
+import sumo.data.SumoSettings;
 
 public class SumoAttackPilot implements SumoRadarListener {
 

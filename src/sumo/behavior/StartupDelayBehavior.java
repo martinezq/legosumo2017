@@ -1,12 +1,12 @@
-package behavior;
+package sumo.behavior;
 
 import javax.microedition.lcdui.Graphics;
 
-import data.SumoSettings;
 import lejos.nxt.Button;
 import lejos.nxt.Sound;
 import lejos.robotics.subsumption.Behavior;
-import util.SumoRadarDisplay;
+import sumo.data.SumoSettings;
+import sumo.gui.SumoRadarDisplay;
 
 public class StartupDelayBehavior implements Behavior {
 

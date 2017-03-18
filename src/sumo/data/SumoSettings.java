@@ -1,4 +1,4 @@
-package data;
+package sumo.data;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

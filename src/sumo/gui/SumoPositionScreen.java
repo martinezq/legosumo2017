@@ -1,9 +1,9 @@
-package gui;
+package sumo.gui;
 
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Screen;
 
-import data.SumoSettings;
+import sumo.data.SumoSettings;
 
 public class SumoPositionScreen extends Screen {
 	

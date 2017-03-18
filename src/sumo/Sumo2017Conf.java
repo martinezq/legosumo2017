@@ -1,7 +1,7 @@
 package sumo;
 
-import data.SumoSettings;
-import gui.SumoSettingsGui;
+import sumo.data.SumoSettings;
+import sumo.gui.SumoSettingsGui;
 
 public class Sumo2017Conf {
 	

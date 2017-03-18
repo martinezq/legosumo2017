@@ -1,8 +1,8 @@
-package behavior;
+package sumo.behavior;
 
-import data.SumoSettings;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
+import sumo.data.SumoSettings;
 
 public class StartupPositionBehavior implements Behavior {
 

@@ -1,4 +1,4 @@
-package behavior;
+package sumo.behavior;
 
 import lejos.nxt.Button;
 import lejos.nxt.comm.RConsole;

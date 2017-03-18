@@ -1,7 +1,6 @@
-package behavior;
+package sumo.behavior;
 
 import lejos.robotics.subsumption.Behavior;
-import util.SumoRadar;
 
 public abstract class RadarDrivenBehavior implements Behavior {
 

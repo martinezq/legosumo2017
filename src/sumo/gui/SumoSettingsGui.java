@@ -1,4 +1,4 @@
-package gui;
+package sumo.gui;
 
 import javax.microedition.lcdui.Choice;
 import javax.microedition.lcdui.Command;
@@ -8,7 +8,7 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.List;
 
-import data.SumoSettings;
+import sumo.data.SumoSettings;
 
 public class SumoSettingsGui implements CommandListener {
 

@@ -1,9 +1,8 @@
-package util;
+package sumo.behavior;
 
-import data.SumoSettings;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
-import lejos.nxt.comm.RConsole;
+import sumo.data.SumoSettings;
 
 public class SumoRadar extends Thread {
 
@@ -12,7 +11,7 @@ public class SumoRadar extends Thread {
 
 	private boolean interrupt = false;
 
-	static interface SumoRadarListener {
+	public static interface SumoRadarListener {
 		public void onChange(SumoRadar radar);
 	}
 

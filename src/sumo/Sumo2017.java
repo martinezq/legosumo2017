@@ -1,20 +1,20 @@
 package sumo;
 
-import behavior.AttackBehavior;
-import behavior.BorderBehavior;
-import behavior.ProgramEndBehavior;
-import behavior.RobotUpBehavior;
-import behavior.SearchBehavior;
-import behavior.StartupDelayBehavior;
-import behavior.StartupPositionBehavior;
-import data.SumoSettings;
 import lejos.nxt.Motor;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
-import util.SumoRadar;
-import util.SumoRadarDisplay;
+import sumo.behavior.AttackBehavior;
+import sumo.behavior.BorderBehavior;
+import sumo.behavior.ProgramEndBehavior;
+import sumo.behavior.RobotUpBehavior;
+import sumo.behavior.SearchBehavior;
+import sumo.behavior.StartupDelayBehavior;
+import sumo.behavior.StartupPositionBehavior;
+import sumo.behavior.SumoRadar;
+import sumo.data.SumoSettings;
+import sumo.gui.SumoRadarDisplay;
 
 public class Sumo2017 {
 
