@@ -1,9 +1,12 @@
 package sumo.behavior;
 
+import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
+import lejos.util.Delay;
 import sumo.data.SumoSettings;
 
 public class BorderBehavior implements Behavior {
@@ -14,13 +17,14 @@ public class BorderBehavior implements Behavior {
 	private DifferentialPilot robot;
 	
 	public BorderBehavior(final DifferentialPilot robot, final SumoSettings settings) {
-		this.borderValue = settings.borderValue;
+		Delay.msDelay(50);
+		this.borderValue = sensor.getNormalizedLightValue() + settings.borderValue;
 		this.robot = robot;
 	}
 	
 	@Override
 	public boolean takeControl() {
-		return sensor.getLightValue() > borderValue;
+		return sensor.getNormalizedLightValue() > borderValue;
 	}
 
 	@Override
@@ -31,8 +35,10 @@ public class BorderBehavior implements Behavior {
 		waitDistance(20);
 		
 		if (!suppressed) {
-			// TODO this cannot be suppressed - change to non-blocking
-			robot.rotate(180);
+			robot.rotate(180, true);
+			while (robot.isMoving() && !suppressed) {
+				Thread.yield();
+			}
 		}
 	}
 

@@ -106,7 +106,7 @@ public class SumoSettingsGui implements CommandListener {
 		escapeTurnRatio2Field =     new NumericField("etr2:      ", settings.escapeTurnRatio2, 0, 200, 10);
 		escapeTurnDistance2Field =  new NumericField("etd2[cm]:  ", settings.escapeTurnDistance2, 0, 1000, 10);
 
-		borderValueField = new NumericField("border[cl]:", settings.borderValue, 0, 100, 2);
+		borderValueField = new NumericField("border[cl]:", settings.borderValue, 0, 100, 10);
 		
 		formGeneral.append(showRadarField);
 		formGeneral.append(startupDelayField);
