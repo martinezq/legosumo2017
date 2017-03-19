@@ -41,7 +41,15 @@ public class Sumo2017 {
 		SearchBehavior search = new SearchBehavior(radar, robot, settings);
 		BorderBehavior border = new BorderBehavior(robot, settings);
 		
-		Behavior[] behaviorList = new Behavior[] { search, attack, border, up, position, delay, end };
+		Behavior[] behaviorList = new Behavior[] { 
+				search, 
+				border, 
+				attack, 
+				up, 
+				position, 
+				delay, 
+				end 
+		};
 		
 		Arbitrator arbitrator = new Arbitrator(behaviorList);
 		

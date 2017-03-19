@@ -87,7 +87,6 @@ public class SumoRadar extends Thread {
 		if (lastError == ERR_NOT_FOUND || lastError == ERR_TOO_CLOSE) {
 			lastError = lastErrorBackup;
 		}
-		// }
 
 		notifyListeners();
 
@@ -131,11 +130,9 @@ public class SumoRadar extends Thread {
 	}
 
 	final private void notifyListeners() {
-		// RConsole.println("radar notify listeners");
 		for (int i = 0; i < listenersCount; i++) {
 			listeners[i].onChange(this);
 		}
-		// RConsole.println("radar notifi listeners done");
 	}
 
 	@Override
