@@ -38,6 +38,7 @@ public class SumoSettingsGui implements CommandListener {
 	
 	private SumoPositionScreen positionScreen;
 	private NumericField startupDelayField;
+	private NumericField startupDistanceField;
 	
 	private NumericField attackSpeedField;
 	private NumericField pidPField;
@@ -90,6 +91,7 @@ public class SumoSettingsGui implements CommandListener {
 		showRadarField =    new NumericField("show rad.: ", settings.showRadar, 0, 1, 1);
 				
 		startupDelayField =    new NumericField("delay[s]:  ", settings.startupDelay, 0, 5, 1);
+		startupDistanceField =    new NumericField("dist[cm]:  ", settings.startupDistance, 0, 100, 10);
 		
 		searchRangeField =     new NumericField("range[cm]: ", settings.searchRange, 10, 200, 10);
 		searchSpeedField =     new NumericField("speed[%]:  ", settings.searchSpeed, 10, 100, 10);
@@ -110,6 +112,7 @@ public class SumoSettingsGui implements CommandListener {
 		
 		formGeneral.append(showRadarField);
 		formGeneral.append(startupDelayField);
+		formGeneral.append(startupDistanceField);
 		
 		formGeneral.addCommand(COMMAND_BACK);
 		formGeneral.setCommandListener(this);
@@ -151,6 +154,7 @@ public class SumoSettingsGui implements CommandListener {
 		
 		settings.startupDelay = startupDelayField.getValue();
 		settings.startupAngle = positionScreen.getValue();
+		settings.startupDistance = startupDistanceField.getValue();
 		
 		settings.searchRange = searchRangeField.getValue();
 		settings.searchSpeed = searchSpeedField.getValue();
@@ -177,6 +181,7 @@ public class SumoSettingsGui implements CommandListener {
 		
 		startupDelayField.setValue(settings.startupDelay);
 		positionScreen.setValue(settings.startupAngle);
+		startupDistanceField.setValue(settings.startupDistance);
 		
 		searchRangeField.setValue(settings.searchRange);
 		searchSpeedField.setValue(settings.searchSpeed);

@@ -1,7 +1,6 @@
 package sumo.behavior;
 
 import lejos.nxt.Motor;
-import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
 import sumo.data.SumoSettings;
 import sumo.gui.SumoRadarDisplay;

@@ -43,10 +43,10 @@ public class Sumo2017 {
 		
 		Behavior[] behaviorList = new Behavior[] { 
 				search, 
+				position, 
 				border, 
 				attack, 
 				up, 
-				position, 
 				delay, 
 				end 
 		};

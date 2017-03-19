@@ -2,6 +2,7 @@ package sumo.behavior;
 
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
+import lejos.util.Delay;
 import sumo.data.SumoSettings;
 
 public class SumoRadar extends Thread {
@@ -23,12 +24,12 @@ public class SumoRadar extends Thread {
 	private boolean pingLeft = true;
 	private int lastPingTime = 0;
 
-	private int lastDistanceLeftCm;
-	private int lastDistanceRightCm;
+	private int lastDistanceLeftCm = 255;
+	private int lastDistanceRightCm = 255;
 
-	public int distanceLeftCm;
-	public int distanceRightCm;
-	public int distanceCm;
+	public int distanceLeftCm = 255;
+	public int distanceRightCm = 255;
+	public int distanceCm = 255;
 	private int error = ERR_NOT_FOUND;
 	private int lastError = 0;
 
@@ -50,10 +51,20 @@ public class SumoRadar extends Thread {
 
 	@Override
 	public void run() {
-		ping();
+		before();
 		while (!interrupt) {
 			step();
 		}
+	}
+	
+	final private void before() {
+		ping();
+		Delay.msDelay(50);
+		readDistances();
+		pingLeft = !pingLeft;
+		ping();
+		Delay.msDelay(50);
+		readDistances();
 	}
 
 	final private void step() {
@@ -84,6 +95,7 @@ public class SumoRadar extends Thread {
 		} else {
 			error = 100 * (Math.min(distanceRightCm, range) - Math.min(distanceLeftCm, range)) / range;
 		}
+		
 		if (lastError == ERR_NOT_FOUND || lastError == ERR_TOO_CLOSE) {
 			lastError = lastErrorBackup;
 		}

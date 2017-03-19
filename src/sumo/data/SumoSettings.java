@@ -17,6 +17,7 @@ public class SumoSettings {
 	public int showRadar = 1;
 	public int startupDelay = 0;
 	public int startupAngle = 0;
+	public int startupDistance = 0;
 	
 	public int attackSpeed = 100;
 	public int pidP = 150;
@@ -64,6 +65,7 @@ public class SumoSettings {
 			
 			dataOut.writeInt(startupDelay);
 			dataOut.writeInt(startupAngle);
+			dataOut.writeInt(startupDistance);
 			
 			dataOut.writeInt(searchSpeed);
 			dataOut.writeInt(searchRange);
@@ -113,6 +115,7 @@ public class SumoSettings {
 			
 			settings.startupDelay = din.readInt();
 			settings.startupAngle = din.readInt();
+			settings.startupDistance = din.readInt();
 			
 			settings.searchSpeed = din.readInt();
 			settings.searchRange = din.readInt();
